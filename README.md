@@ -54,18 +54,18 @@ This guide walks you through setting up and running an **IBM Data Product Hub (D
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│              IBM Data Product Hub (SaaS)             │
-│                                                     │
-│  ┌──────────────┐        ┌──────────────────────┐   │
-│  │   Producer   │        │  Consumer Marketplace│   │
-│  │              │ publish│                      │   │
-│  │ - Upload data│───────▶│ - Browse & search    │   │
-│  │ - Add assets │        │ - View data contract │   │
-│  │ - Set contract│       │ - Subscribe          │   │
-│  │ - Publish    │        │ - Download / access  │   │
-│  └──────────────┘        └──────────────────────┘   │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│               IBM Data Product Hub (SaaS)                │
+│                                                          │
+│  ┌──────────────────────┐    ┌──────────────────────┐    │
+│  │      Producer        │    │  Consumer Marketplace │    │
+│  │                      │    │                       │    │
+│  │  - Upload data       │    │  - Browse & search    │    │
+│  │  - Add assets        │───▶│  - View data contract │    │
+│  │  - Set data contract │    │  - Subscribe          │    │
+│  │  - Publish           │    │  - Download / access  │    │
+│  └──────────────────────┘    └──────────────────────┘    │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
