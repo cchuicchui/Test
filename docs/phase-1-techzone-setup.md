@@ -6,12 +6,11 @@
 
 ## Steps
 
-### Step 1: Reserve the DPH Environment
+### Step 1: Reserve the Environment
 
 1. Go to [techzone.ibm.com](https://techzone.ibm.com) and log in with your **IBM ID**
-2. In the search bar, type: `Data Product Hub`
-3. Look for the collection titled **"IBM Data Product Hub"** or **"IBM watsonx.data + Data Product Hub"**
-   - Filter by **Collection type**: `Demonstration` or `Proof of Technology`
+2. In the search bar, type: `watsonx.data intelligence Bundle`
+3. Select the collection titled **"watsonx.data intelligence Bundle (DPH Initialization)"**
 4. Click **Reserve**
 5. Fill in the reservation form:
 
@@ -22,20 +21,22 @@
    | **Duration** | 2–3 days |
 
 6. Submit the reservation
-7. Wait for the confirmation email (typically **15–30 minutes**)
+7. Wait for the confirmation email (typically **30–60 minutes** for this bundle)
    - The email contains: environment URL, username, and temporary password
 
 ---
 
-## Alternative: Provision DPH via IBM Cloud
+## What This Environment Includes
 
-If no standalone TechZone collection is available, provision directly from IBM Cloud:
+The **watsonx.data intelligence Bundle (DPH Initialization)** provisions the following services pre-configured and connected:
 
-1. Go to [cloud.ibm.com](https://cloud.ibm.com) and log in
-2. Click **Catalog** → search for `Data Product Hub`
-3. Select the **Lite** or **Trial** plan
-4. Click **Create**
-5. Once provisioned, click **Launch** to open the DPH UI
+| Service | Role in Demo |
+|---|---|
+| **Data Product Hub (DPH)** | The marketplace where data products are published and consumed |
+| **watsonx.data** | The lakehouse — provides Presto engine, Iceberg tables, and object storage as data sources |
+| **watsonx.data intelligence** | Adds IBM Knowledge Catalog, data lineage, and data quality capabilities |
+
+> DPH is pre-initialized and connected to watsonx.data out of the box. No manual wiring is needed.
 
 ---
 
@@ -45,11 +46,12 @@ Before moving to Phase 2, confirm the following:
 
 - [ ] TechZone environment URL is accessible
 - [ ] You can log in with the provided credentials
-- [ ] The home page shows the **Data Product Hub** experience (not Cloud Pak for Data or watsonx)
+- [ ] The home page shows the **Data Product Hub** experience
+- [ ] Navigating to **Administration** shows both DPH and watsonx.data services as active
 
 ---
 
-> **Tip:** Bookmark the environment URL and note down your credentials. TechZone environments expire — extend the reservation if you need more time.
+> **Tip:** Bookmark the environment URL and note down your credentials. TechZone environments expire — extend the reservation if you need more time before the demo.
 
 ---
 

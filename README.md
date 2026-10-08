@@ -1,25 +1,39 @@
-# IBM Data Product Hub — Standalone Demo Guide
+# IBM Data Product Hub — Demo Guide
 
-> A step-by-step guide to building an IBM Data Product Hub demo using IBM TechZone resources.
+> A step-by-step guide to building an IBM Data Product Hub demo using the **watsonx.data intelligence Bundle (DPH Initialization)** environment on IBM TechZone.
 
 ## Overview
 
-This guide walks you through setting up and running an **IBM Data Product Hub (DPH) Standalone demo** — the fastest path to demonstrating the producer/consumer data sharing experience without requiring the full Data Fabric stack.
+This guide walks you through setting up and running an **IBM Data Product Hub (DPH) demo** backed by a live **watsonx.data** lakehouse. The demo showcases the full producer/consumer data sharing experience — from publishing a data product sourced from Iceberg tables to consuming it via multiple delivery methods.
 
 ### What You Will Demo
 
 | Persona | Experience |
 |---|---|
-| **Data Producer** | Create, document, and publish a data product to the marketplace |
-| **Data Consumer** | Discover, subscribe to, and consume a data product |
+| **Data Producer** | Connect to watsonx.data, create and publish a governed data product to the marketplace |
+| **Data Consumer** | Discover, subscribe to, and consume a data product via CSV extract or live lakehouse access |
 
 ---
 
 ## Prerequisites
 
-- IBM ID (for TechZone and IBM Cloud access)
+- IBM ID (for TechZone access)
 - A browser that supports multiple profiles (e.g., Chrome) — to simulate two personas
-- Sample dataset (CSV) — see [sample data suggestions](docs/sample-data.md)
+- No local installation required — the demo runs entirely in the browser
+
+---
+
+## TechZone Environment
+
+This guide is designed for the **"watsonx.data intelligence Bundle (DPH Initialization)"** collection on IBM TechZone.
+
+| Service | Included | Role in Demo |
+|---|---|---|
+| **Data Product Hub** | ✅ | The marketplace — publish and consume data products |
+| **watsonx.data** | ✅ | The lakehouse — Presto engine, Iceberg tables, object storage |
+| **watsonx.data intelligence** | ✅ | Governance layer — data quality, lineage, IBM Knowledge Catalog |
+
+> DPH is pre-initialized and pre-connected to watsonx.data in this bundle. No manual wiring is required.
 
 ---
 
@@ -39,12 +53,12 @@ This guide walks you through setting up and running an **IBM Data Product Hub (D
 
 ```bash
 # No code installation required.
-# This demo runs entirely in the IBM Data Product Hub SaaS UI.
+# This demo runs entirely in the browser using IBM TechZone SaaS services.
 # Follow the phases in order, starting with Phase 1.
 ```
 
 1. [Reserve your TechZone environment](docs/phase-1-techzone-setup.md)
-2. [Set up users and personas](docs/phase-2-admin-setup.md)
+2. [Set up services and user personas](docs/phase-2-admin-setup.md)
 3. [Run the Producer workflow](docs/phase-3-producer-workflow.md)
 4. [Run the Consumer workflow](docs/phase-4-consumer-workflow.md)
 5. [Deliver the demo with talking points](docs/phase-5-talking-points.md)
@@ -66,6 +80,16 @@ This guide walks you through setting up and running an **IBM Data Product Hub (D
 │  │  - Publish           │    │  - Download / access  │     │
 │  └──────────────────────┘    └───────────────────────┘     │
 └────────────────────────────────────────────────────────────┘
+              │ Presto connection              │
+              ▼                               ▼
+┌────────────────────────────────────────────────────────────┐
+│                    IBM watsonx.data                        │
+│                                                            │
+│   Iceberg Tables  │  Presto Engine  │  Object Storage      │
+│                                                            │
+│  (governed by watsonx.data intelligence:                   │
+│   Knowledge Catalog · Data Quality · Lineage)              │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -76,7 +100,8 @@ This guide walks you through setting up and running an **IBM Data Product Hub (D
 |---|---|
 | IBM TechZone | https://techzone.ibm.com |
 | DPH Documentation | https://www.ibm.com/docs/en/cloud-paks/cp-data |
-| DPH Video Library | Available in CPD docs → Video library → Use Data Product Hub |
+| watsonx.data Documentation | https://www.ibm.com/docs/en/watsonxdata |
+| DPH + watsonx.data Integration | https://www.ibm.com/docs/en/watsonxdata?topic=integrations-integrating-data-product-hub |
 | Open Data Contract Standard (ODCS) | https://bitol-io.github.io/open-data-contract-standard/latest/ |
 
 ---

@@ -10,18 +10,34 @@ Log in as the **Producer** persona for all steps in this phase.
 
 ## Steps
 
-### Step 4: Upload Sample Data
+### Step 5: Create a Project
 
 1. From the DPH home page, go to **Projects** → **New Project**
 2. Name the project: `Demo Data Project`
-3. Click **Assets** → **New Asset** → **Data** → **Load**
-4. Upload your sample CSV file
-
-> See [sample-data.md](sample-data.md) for recommended free datasets.
+3. Click **Create**
 
 ---
 
-### Step 5: Create a Data Product
+### Step 6: Create a Connection Asset to watsonx.data
+
+The DPH Initialization bundle pre-creates a Presto connection. Add it to your project:
+
+1. Inside `Demo Data Project`, click **Assets** → **New Asset** → **Connection**
+2. Select **IBM watsonx.data (Presto)** from the connection type list
+3. If a pre-existing connection is available, select it. Otherwise fill in the details:
+
+   | Field | Value |
+   |---|---|
+   | **Connection name** | `watsonx.data Demo Connection` |
+   | **Hostname** | From watsonx.data console → Connection information |
+   | **Port** | `443` |
+   | **Authentication** | Username + API key (from IBM Cloud) |
+
+4. Click **Test connection** → confirm success → **Create**
+
+---
+
+### Step 7: Create a Data Product
 
 1. From the home page, click **Create a data product**
 2. Fill in the product details:
@@ -29,75 +45,92 @@ Log in as the **Producer** persona for all steps in this phase.
    | Field | Example Value |
    |---|---|
    | **Name** | `Customer Sales Analytics Q3 2025` |
-   | **Description** | `Quarterly sales data aggregated by region and product category, curated for BI teams.` |
+   | **Description** | `Quarterly sales data aggregated by region and product category, sourced directly from the enterprise lakehouse and curated for BI teams.` |
    | **Domain** | `Sales` |
-   | **Tags** | `sales`, `quarterly`, `analytics` |
+   | **Tags** | `sales`, `quarterly`, `analytics`, `lakehouse` |
    | **Status** | `Draft` (default) |
 
 3. Click **Next**
 
 ---
 
-### Step 6: Add a Data Asset
+### Step 8: Add a Data Asset from watsonx.data
 
-1. Click **Add asset** → **Data asset from project**
-2. Select the CSV uploaded in Step 4
-3. Preview the data — confirm the schema columns are visible
-4. Click **Next**
+#### Option A: Add a table directly from watsonx.data (recommended)
 
-#### Optional: Add a parameterized SQL query asset
+1. Click **Add asset** → **Data asset from source**
+2. Select the **watsonx.data (Presto) connection** created in Step 6
+3. Browse the catalog and schema to locate a suitable table (e.g., `gosales.go_daily_sales` or any pre-loaded table noted in Phase 2)
+4. Select the table → click **Add**
+5. Preview the data — confirm the schema columns are visible
+6. Click **Next**
 
-Instead of (or in addition to) the CSV, add a SQL query to show dynamic filtering:
+#### Option B: Add a parameterized SQL query asset
 
-```sql
-SELECT region, product_category, SUM(revenue) AS total_revenue
-FROM sales_data
-WHERE quarter = '{{ quarter }}'
-GROUP BY region, product_category
-```
+Use this to show dynamic, consumer-driven filtering of lakehouse data:
 
-This demonstrates how consumers can request filtered data without moving raw datasets.
+1. Click **Add asset** → **SQL query asset**
+2. Select the **watsonx.data (Presto) connection**
+3. Enter a parameterized query, for example:
+
+   ```sql
+   SELECT region, product_line, SUM(revenue) AS total_revenue, COUNT(*) AS order_count
+   FROM gosales.go_daily_sales
+   WHERE year = {{ year }}
+   GROUP BY region, product_line
+   ORDER BY total_revenue DESC
+   ```
+
+4. Define the parameter:
+   - **Name**: `year`
+   - **Type**: String
+   - **Default value**: `2024`
+5. Click **Save** → **Add**
+
+> **Demo talking point:** The producer packages a reusable query. Consumers can run it with different parameters without ever touching the underlying lakehouse directly.
 
 ---
 
-### Step 7: Define Delivery Methods
+### Step 9: Define Delivery Methods
 
-Select the delivery options consumers will have when they access this product:
+Select the delivery options consumers will have:
 
 | Delivery Method | Best For | Select for Demo |
 |---|---|---|
-| **Data Extract (CSV/Parquet)** | Business users who download files | ✅ Yes (required) |
-| **Flight service** | Technical users (data scientists, notebooks) | Optional |
+| **Data Extract (CSV/Parquet)** | Business users who download files | ✅ Yes |
+| **Access in watsonx.data** | Technical users who query directly in watsonx.data | ✅ Yes |
+| **Deliver as a Table in watsonx.data** | Consumers who want the data landed as a new table | Optional |
+| **Flight service** | Data scientists using Jupyter Notebooks | Optional |
 
-Enable at least **Data Extract** for the simplest demo path.
+Enable at least **Data Extract** and **Access in watsonx.data** for a complete demo.
 
 ---
 
-### Step 8: Define a Data Contract *(optional but recommended)*
+### Step 10: Define a Data Contract
 
-A data contract is a formal producer/consumer agreement. Including it in the demo builds the trust and governance story.
+A data contract is a formal producer/consumer agreement that builds trust in the data product.
 
 1. Click the **Contract** tab → **Add contract**
 2. Define the contract properties:
 
    | Property | Example Value |
    |---|---|
-   | **Schema** | Confirm expected columns: `region`, `revenue`, `quarter`, `product_category` |
+   | **Schema** | Confirm expected columns from the watsonx.data table |
    | **Quality rule** | `revenue` column must not be null |
-   | **Quality rule** | `region` must be one of: `North`, `South`, `East`, `West` |
-   | **SLA / Refresh** | Quarterly |
+   | **Quality rule** | `region` must not be empty |
+   | **SLA / Refresh** | Daily (sourced live from lakehouse) |
 
 3. Save the contract
 
-> The contract shows up as a **trust indicator badge** on the marketplace listing.
+> The contract shows up as a **trust indicator badge** on the marketplace listing and is enforced via the watsonx.data intelligence data quality engine.
 
 ---
 
-### Step 9: Publish the Data Product
+### Step 11: Publish the Data Product
 
 1. Review all tabs:
    - **Details** — name, description, domain, tags
-   - **Assets** — data preview, schema
+   - **Assets** — watsonx.data table or SQL query preview
    - **Delivery** — delivery methods enabled
    - **Contract** — quality rules and SLA
 2. Click **Publish** → confirm the dialog
@@ -108,13 +141,12 @@ A data contract is a formal producer/consumer agreement. Including it in the dem
 
 ## Verification Checklist
 
-- [ ] Sample CSV uploaded to the project
+- [ ] Project created with a watsonx.data Presto connection
 - [ ] Data product created with name, description, domain, and tags
-- [ ] At least one data asset added with visible schema
-- [ ] Data Extract delivery method enabled
-- [ ] Data contract defined (optional but recommended)
-- [ ] Product status is `Published`
-- [ ] Product appears in the Marketplace
+- [ ] A watsonx.data table or SQL query asset added with visible schema
+- [ ] Data Extract and Access in watsonx.data delivery methods enabled
+- [ ] Data contract defined with at least one quality rule
+- [ ] Product status is `Published` and appears in the Marketplace
 
 ---
 
